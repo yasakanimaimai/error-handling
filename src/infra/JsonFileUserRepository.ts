@@ -29,6 +29,7 @@ export class JsonFileUserRepository implements UserRepository {
     users.push({
       name: newUser.name.value,
       email: newUser.email.value,
+      authority: newUser.authority.value,
     });
 
     await writeFile(this.filePath, JSON.stringify(users), {

@@ -9,11 +9,13 @@ export class UserController {
   constructor(private readonly createUserService: CreateUserService) {}
 
   @Post('/create')
-  async create(@Body('name') name: string, @Body('email') email: string) {
+  async create(
+    @Body('name') name: string,
+    @Body('email') email: string,
+    @Body('authority') authority: string,
+  ) {
     try {
-      console.log({ name });
-      console.log({ email });
-      await this.createUserService.execute(name, email);
+      await this.createUserService.execute(name, email, authority);
       return { status: 'success' };
     } catch (error) {
       if (error instanceof AppException) {

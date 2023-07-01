@@ -6,6 +6,7 @@ import { User } from '../../domain/user/User.entity';
 import { AppException } from '../exception/AppException';
 import { UserRepository } from 'src/domain/interface/UserRepository.interface';
 import { DuplicateUserValidator } from 'src/domainService/DuplicateUserValidator';
+import { UserAuthority } from 'src/domain/user/UserAuthority';
 
 @Injectable()
 export class CreateUserService {
@@ -14,7 +15,7 @@ export class CreateUserService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async execute(name: string, email: string) {
+  async execute(name: string, email: string, authority: string) {
     const userEmailResult = UserEmail.create(email);
     if (userEmailResult.isFailure) {
       throw new AppException(userEmailResult.error.message);
@@ -25,9 +26,15 @@ export class CreateUserService {
       throw new AppException(userNameResult.error.message);
     }
 
+    const userAuthorityResult = UserAuthority.create(authority);
+    if (userAuthorityResult.isFailure) {
+      throw new AppException(userAuthorityResult.error.message);
+    }
+
     const user = new User(
       userNameResult.getValue(),
       userEmailResult.getValue(),
+      userAuthorityResult.getValue(),
     );
 
     const duplivateValidator = new DuplicateUserValidator(this.userRepository);
