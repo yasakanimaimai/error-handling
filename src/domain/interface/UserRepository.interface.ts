@@ -1,5 +1,5 @@
-import { User } from './User.entity';
-import { UserEmail } from './UserEmail';
+import { User } from '../user/User.entity';
+import { UserEmail } from '../user/UserEmail';
 
 export interface UserRepository {
   save(user: User): Promise<void>;

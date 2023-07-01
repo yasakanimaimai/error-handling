@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { User } from 'src/domain/user/User.entity';
 import { UserEmail } from 'src/domain/user/UserEmail';
-import { UserRepository } from 'src/domain/user/UserRepository.interface';
+import { UserRepository } from 'src/domain/interface/UserRepository.interface';
 import * as util from 'util';
 
 const readFile = util.promisify(fs.readFile);

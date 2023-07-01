@@ -4,7 +4,7 @@ import { UserEmail } from '../../domain/user/UserEmail';
 import { UserName } from '../../domain/user/UserName';
 import { User } from '../../domain/user/User.entity';
 import { AppException } from '../exception/AppException';
-import { UserRepository } from 'src/domain/user/UserRepository.interface';
+import { UserRepository } from 'src/domain/interface/UserRepository.interface';
 import { DuplicateUserValidator } from 'src/domainService/DuplicateUserValidator';
 
 @Injectable()

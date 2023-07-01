@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/domain/user/User.entity';
-import { UserRepository } from 'src/domain/user/UserRepository.interface';
+import { UserRepository } from 'src/domain/interface/UserRepository.interface';
 
 @Injectable()
 export class DuplicateUserValidator {
