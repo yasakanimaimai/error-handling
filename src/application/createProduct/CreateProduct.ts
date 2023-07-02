@@ -5,6 +5,8 @@ import { Product } from '../../domain/product/Product.entity';
 import { AppException } from '../exception/AppException';
 import { ProductRepository } from 'src/domain/interface/ProductRepository.interface';
 import { ProductId } from 'src/domain/product/ProductId';
+import { ProductCreatePermissionChecker } from 'src/domainService/ProductCreatePermissionChecker';
+import { UserAuthority } from 'src/domain/user/UserAuthority';
 
 @Injectable()
 export class CreateProductService {
@@ -13,7 +15,19 @@ export class CreateProductService {
     private readonly productRepository: ProductRepository,
   ) {}
 
-  async execute(id: number, name: string) {
+  async execute(id: number, name: string, authority: string) {
+    const UserAuthorityResult = UserAuthority.create(authority);
+    if (UserAuthorityResult.isFailure) {
+      throw new AppException(UserAuthorityResult.error.message);
+    }
+
+    const permissionChecker = new ProductCreatePermissionChecker(
+      UserAuthorityResult.getValue(),
+    );
+    if (!permissionChecker.isCreatable()) {
+      throw new AppException('権限が不足しています');
+    }
+
     const productIdResult = ProductId.create(id);
     if (productIdResult.isFailure) {
       throw new AppException(productIdResult.error.message);

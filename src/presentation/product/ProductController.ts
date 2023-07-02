@@ -9,9 +9,14 @@ export class ProductController {
   constructor(private readonly createProductService: CreateProductService) {}
 
   @Post('/create')
-  async create(@Body('id') id: number, @Body('name') name: string) {
+  async create(
+    @Body('id') id: number,
+    @Body('name') name: string,
+    // 本来ならログインユーザから取得する
+    @Body('authority') authority: string,
+  ) {
     try {
-      await this.createProductService.execute(id, name);
+      await this.createProductService.execute(id, name, authority);
       return { status: 'success' };
     } catch (error) {
       if (error instanceof AppException) {
